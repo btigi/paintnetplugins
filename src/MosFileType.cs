@@ -1,13 +1,15 @@
 using ii.InfinityEngine.Files;
 using ii.InfinityEngine.Readers;
 using PaintDotNet;
+using PaintDotNet.Drawing;
+using PaintDotNet.Rendering;
 using System;
 using System.Drawing;
 using System.IO;
 
 namespace MosFileTypePlugin
 {
-    [PluginSupportInfo(typeof(FileTypeFactory), DisplayName = "MOS File (Baldur's Gate)")]
+    [PluginSupportInfo(typeof(FileTypeFactory), DisplayName = "MOS File V1 (Infinity Engine)")]
     public class MosFileType : FileType
     {
         public MosFileType()
@@ -15,7 +17,8 @@ namespace MosFileTypePlugin
                 "MOS File",
                 new FileTypeOptions
                 {
-                    LoadExtensions = new[] { ".mos" }
+                    LoadExtensions = [".mos"],
+                    SaveExtensions = [".mos"]
                 })
         {
         }
@@ -62,13 +65,49 @@ namespace MosFileTypePlugin
                 throw new Exception($"Error loading MOS file: {ex.Message}", ex);
             }
         }
+
+        protected override void OnSave(Document input, Stream output, SaveConfigToken token, Surface scratchSurface, ProgressEventHandler progressCallback)
+        {
+            try
+            {
+                IRenderer<ColorBgra> renderer = input.CreateRenderer();
+                renderer.Render(scratchSurface);
+
+                var bitmap = scratchSurface.ToGdipBitmap();
+
+                try
+                {
+                    string tempFile = Path.GetTempFileName();
+                    try
+                    {
+                        var mosConverter = new ii.InfinityEngine.MosConverter();
+                        mosConverter.ToMos(bitmap, tempFile);
+
+                        using FileStream tempStream = File.OpenRead(tempFile);
+                        tempStream.CopyTo(output);
+                    }
+                    finally
+                    {
+                        if (File.Exists(tempFile))
+                        {
+                            File.Delete(tempFile);
+                        }
+                    }
+                }
+                finally
+                {
+                    bitmap.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error saving MOS file: {ex.Message}", ex);
+            }
+        }
     }
 
     public class FileTypeFactory : IFileTypeFactory
     {
-        public FileType[] GetFileTypeInstances()
-        {
-            return new FileType[] { new MosFileType() };
-        }
+        public FileType[] GetFileTypeInstances() => [new MosFileType()];
     }
 }

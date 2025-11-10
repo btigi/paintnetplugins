@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:MosFileTypePlugin.MosFileType.OnLoad(System.IO.Stream)~PaintDotNet.Document")]
 [assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:MosFileTypePlugin.MosFileType.#ctor")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:MosFileTypePlugin.MosFileType.OnSave(PaintDotNet.Document,System.IO.Stream,PaintDotNet.SaveConfigToken,PaintDotNet.Surface,PaintDotNet.ProgressEventHandler)")]

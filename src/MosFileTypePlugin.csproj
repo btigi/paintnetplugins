@@ -10,10 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ii.InfinityEngine" Version="0.6.0-alpha.1" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ii.InfinityEngine">
+      <HintPath>..\..\ie\iiInfinityEngine\src\bin\Debug\net8.0\ii.InfinityEngine.dll</HintPath>
+    </Reference>
     <Reference Include="PaintDotNet.Base">
       <HintPath>C:\Program Files\paint.net\PaintDotNet.Base.dll</HintPath>
       <Private>False</Private>
