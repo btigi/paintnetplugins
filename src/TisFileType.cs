@@ -120,7 +120,7 @@ namespace TisFileTypePlugin
             var sb = new System.Text.StringBuilder();
             try
             {
-                var path = Environment.GetEnvironmentVariable("iiPaintNetPlugins", EnvironmentVariableTarget.Machine);
+                var path = Environment.GetEnvironmentVariable("iiIEPaintNetPlugins", EnvironmentVariableTarget.Machine);
 
                 if (string.IsNullOrEmpty(path))
                 {
